@@ -1,0 +1,17 @@
+abstract: RT Extension-TicketAging Extension
+author: Ruslan Zakirov <ruz@bestpractical.com>
+build_requires: 
+  Test::More: 0.62
+distribution_type: module
+generated_by: Module::Install version 0.64
+license: perl
+name: RT-Extension-TicketAging
+no_index: 
+  directory: 
+    - etc
+    - sbin
+    - inc
+    - t
+requires: 
+  Hook::LexWrap: 0
+version: 0.08
