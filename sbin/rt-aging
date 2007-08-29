@@ -77,19 +77,39 @@ exit 0;
 sub walk_collection {
     my %args = ( Collection => undef, Age => undef, @_ );
     my $objs = $args{'Collection'};
+
+    my $filter = $map->{ $args{'Age'} }{'Condition'}{'Filter'};
+    $RT::Logger->debug( loc "There is a filter for '[_1]' age", $args{'Age'} );
+
+    my $tmp = new File::Temp; # croaks on error
+    my $class = '';
+
     fetch_next( $objs, 1 );
     while ( my $obj = fetch_next( $objs ) ) {
-        my $filter = $map->{ $args{'Age'} }{'Condition'}{'Filter'};
-        if ( $filter ) {
-            next unless $filter->(
-                Object     => $obj,
-                Collection => $args{'Collection'},
-                Age        => $args{'Age'},
-            );
+        $class = ref $obj unless $class;
+        next if $filter && !$filter->(
+            Object     => $obj,
+            Collection => $objs,
+            Age        => $args{'Age'},
+        );
+        print $tmp $obj->id, "\n";
+    }
+    return unless $class;
+
+    seek $tmp, 0, 0;
+    while ( my $id = <$tmp> ) {
+        chomp $id;
+
+        my $obj = $class->new( $objs->CurrentUser );
+        $obj->LoadById( $id );
+        unless ( $obj->id ) {
+            $RT::Logger->warning( loc "Couldn't load [_1] #[_2], may be it doesn't exist anymore", $class, $id );
+            next;
         }
+
         my ($status, $msg) = apply_action(
             Object     => $obj,
-            Collection => $args{'Collection'},
+            Collection => $objs,
             Age        => $args{'Age'},
         );
         $RT::Logger->error(loc("Couldn't apply action for age [_1]: [_2]", $args{'Age'}, $msg))

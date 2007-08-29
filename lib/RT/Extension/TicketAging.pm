@@ -1,6 +1,6 @@
 package RT::Extension::TicketAging;
 
-our $VERSION = '0.08';
+our $VERSION = '0.10';
 
 use strict;
 use warnings;

@@ -12,6 +12,7 @@ license('perl');
 }
 
 requires('Hook::LexWrap');
+requires('File::Temp');
 
 build_requires('Test::More' => 0.62);  # for simple code ref comparison
 auto_install();
