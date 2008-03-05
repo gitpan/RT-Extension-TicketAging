@@ -1,12 +1,12 @@
 use inc::Module::Install;
 
 RTx ('RT-Extension-TicketAging');
-author ('Ruslan Zakirov <ruz@bestpractical.com>');
 license('perl');
+all_from('lib/RT/Extension/TicketAging.pm');
 
 { # check RT version
     my @v = split /\./, "$RT::VERSION";
-    unless ($v[0]>=3 && $v[1]>=7) {
+    unless (($v[0]>=3 && $v[1]>=7) || $v[0]>3) {
         die "Extension needs RT 3.7.0 at least, you have $RT::VERSION";
     }
 }

@@ -1,14 +1,16 @@
 package RT::Extension::TicketAging;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
+use v5.8.3;
 use strict;
 use warnings;
 
 
 =head1 NAME
 
-RT::Extension::TicketAging
+RT::Extension::TicketAging - allows tickets to be made inaccessable
+and finally completely deleted
 
 =head1 DESCRIPTION
 
@@ -500,5 +502,10 @@ wrap 'RT::Tickets::_CustomFieldLimit',
     };
 $RT::Tickets::dispatch{'CUSTOMFIELD'} = \&RT::Tickets::_CustomFieldLimit;
 
-
 1;
+
+=head1 AUTHOR
+
+Ruslan Zakirov E<lt>ruz@bestpractical.comE<gt>
+
+=cut
