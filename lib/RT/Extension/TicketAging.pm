@@ -1,6 +1,6 @@
 package RT::Extension::TicketAging;
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 use v5.8.3;
 use strict;
